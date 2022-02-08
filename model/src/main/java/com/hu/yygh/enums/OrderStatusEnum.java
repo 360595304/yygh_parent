@@ -9,7 +9,7 @@ public enum OrderStatusEnum {
     UNPAID(0,"预约成功，待支付"),
     PAID(1,"已支付" ),
     GET_NUMBER(2,"已取号" ),
-    CANCLE(-1,"取消预约"),
+    CANCEL(-1,"取消预约"),
     ;
 
     private Integer status;
@@ -27,7 +27,7 @@ public enum OrderStatusEnum {
 
     public static List<Map<String,Object>> getStatusList() {
         List<Map<String,Object>> list = new ArrayList<>();
-        OrderStatusEnum arrObj[] = OrderStatusEnum.values();
+        OrderStatusEnum[] arrObj = OrderStatusEnum.values();
         for (OrderStatusEnum obj : arrObj) {
             Map<String,Object> map = new HashMap<>();
             map.put("status", obj.getStatus());
