@@ -31,6 +31,13 @@ public class DictController {
         return Result.ok(list);
     }
 
+    @ApiOperation("根据dictCode查询子数据列表")
+    @GetMapping("/findByDictCode/{dictCode}")
+    public Result<Object> findByDictCode(@PathVariable String dictCode) {
+        List<Dict> list = dictService.findByDictCode(dictCode);
+        return Result.ok(list);
+    }
+
     @ApiOperation("导出数据字典")
     @GetMapping("/exportData")
     public void exportDict(HttpServletResponse response) {
@@ -42,4 +49,18 @@ public class DictController {
     public void importData(MultipartFile file) {
         dictService.importDictData(file);
     }
+
+    @ApiOperation("根据dictcode和value查询")
+    @GetMapping("/getName/{dictCode}/{value}")
+    public String getName(@PathVariable String dictCode,
+                          @PathVariable String value) {
+        return dictService.getDictName(dictCode, value);
+    }
+
+    @ApiOperation("根据value查询")
+    @GetMapping("/getName/{value}")
+    public String getName(@PathVariable String value) {
+        return dictService.getDictName("", value);
+    }
+
 }

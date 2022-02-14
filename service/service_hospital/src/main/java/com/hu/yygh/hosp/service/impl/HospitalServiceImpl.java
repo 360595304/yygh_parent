@@ -1,13 +1,19 @@
 package com.hu.yygh.hosp.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hu.yygh.cmn.client.DictFeignClient;
 import com.hu.yygh.hosp.repository.HospitalRepository;
 import com.hu.yygh.hosp.service.HospitalService;
 import com.hu.yygh.model.hosp.Hospital;
+import com.hu.yygh.vo.hosp.HospitalQueryVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +24,9 @@ import java.util.Map;
 public class HospitalServiceImpl implements HospitalService {
     @Autowired
     private HospitalRepository hospitalRepository;
+
+    @Autowired
+    private DictFeignClient dictFeignClient;
 
     @Override
     public void save(Map<String, Object> paramMap) {
@@ -46,5 +55,47 @@ public class HospitalServiceImpl implements HospitalService {
     @Override
     public Hospital getByHoscode(String hoscode) {
         return hospitalRepository.getHospitalByHoscode(hoscode);
+    }
+
+    @Override
+    public Page<Hospital> selectHospPage(int page, int limit, HospitalQueryVo hospitalQueryVo) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase();
+        Hospital hospital = new Hospital();
+        BeanUtils.copyProperties(hospitalQueryVo, hospital);
+        Example<Hospital> example = Example.of(hospital, matcher);
+        Page<Hospital> pages = hospitalRepository.findAll(example, pageable);
+        pages.getContent().forEach(this::setHospitalHosType);
+        return pages;
+    }
+
+    @Override
+    public void updateStatus(String id, Integer status) {
+        Hospital hospital = hospitalRepository.findById(id).get();
+        hospital.setStatus(status);
+        hospital.setUpdateTime(new Date());
+        hospitalRepository.save(hospital);
+    }
+
+    @Override
+    public Map<String, Object> getHospById(String id) {
+        Hospital hospital = hospitalRepository.findById(id).get();
+        this.setHospitalHosType(hospital);
+        Map<String, Object> map = new HashMap<>();
+        map.put("hospital", hospital);
+        map.put("bookingRule", hospital.getBookingRule());
+        hospital.setBookingRule(null);
+        return map;
+    }
+
+    private void setHospitalHosType(Hospital hospital) {
+        String hostypeString = dictFeignClient.getName("Hostype", hospital.getHostype());
+        String provinceString = dictFeignClient.getName(hospital.getProvinceCode());
+        String cityString = dictFeignClient.getName(hospital.getCityCode());
+        String districtString = dictFeignClient.getName(hospital.getDistrictCode());
+        hospital.getParam().put("hostypeString", hostypeString);
+        hospital.getParam().put("fullAddress", provinceString + cityString + districtString);
     }
 }

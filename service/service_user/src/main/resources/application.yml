@@ -1,0 +1,6 @@
+server:
+  port: 8301
+
+spring:
+  application:
+    name: service-user
