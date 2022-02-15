@@ -98,4 +98,10 @@ public class HospitalServiceImpl implements HospitalService {
         hospital.getParam().put("hostypeString", hostypeString);
         hospital.getParam().put("fullAddress", provinceString + cityString + districtString);
     }
+
+    @Override
+    public String getHospName(String hoscode) {
+        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
+        return hospital.getHosname();
+    }
 }

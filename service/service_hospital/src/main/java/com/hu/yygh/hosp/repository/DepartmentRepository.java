@@ -10,4 +10,5 @@ public interface DepartmentRepository extends MongoRepository<Department, String
 
     List<Department> getDepartmentsByHoscode(String hoscode);
 
+    Department findDepartmentByHoscodeAndDepcode(String hoscode, String depcode);
 }
