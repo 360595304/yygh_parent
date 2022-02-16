@@ -17,7 +17,6 @@ import java.util.List;
  * @createDate 2022/2/10
  */
 @RestController
-@CrossOrigin
 @RequestMapping("/admin/cmn/dict")
 @Api(tags = "数据字典接口")
 public class DictController {

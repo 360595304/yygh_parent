@@ -6,9 +6,11 @@ import com.hu.yygh.model.hosp.Schedule;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +21,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/admin/hosp/schedule")
-@CrossOrigin
 @Api(tags = "医院排班管理")
 public class ScheduleController {
     @Autowired

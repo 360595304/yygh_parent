@@ -87,8 +87,11 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @Override
     public List<Dict> findByDictCode(String dictCode) {
         Dict parent = this.getDictByDictCode(dictCode);
-        Long parentId = parent.getId();
-        return this.findChildData(parentId);
+        if (parent != null) {
+            Long parentId = parent.getId();
+            return this.findChildData(parentId);
+        }
+        return null;
     }
 
     private Dict getDictByDictCode(String dictCode) {

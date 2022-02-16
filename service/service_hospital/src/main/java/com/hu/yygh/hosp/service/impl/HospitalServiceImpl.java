@@ -104,4 +104,19 @@ public class HospitalServiceImpl implements HospitalService {
         Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
         return hospital.getHosname();
     }
+
+    @Override
+    public List<Hospital> findByHosname(String hosname) {
+        return hospitalRepository.findHospitalByHosnameLike(hosname);
+    }
+
+    @Override
+    public Map<String, Object> item(String hoscode) {
+        Map<String, Object> result = new HashMap<>();
+        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
+        result.put("hospital", hospital);
+        result.put("bookingRule", hospital.getBookingRule());
+        hospital.setBookingRule(null);
+        return result;
+    }
 }
