@@ -1,6 +1,21 @@
 server:
-  port: 8301
+  port: 8203
 
 spring:
   application:
     name: service-user
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost/yygh_user?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: su360595304
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+mybatis-plus:
+  mapper-locations: classpath:com/gu/yygh/user/mapper/xml/*.xml
