@@ -4,7 +4,6 @@ import com.hu.yygh.model.hosp.Schedule;
 import com.hu.yygh.vo.hosp.ScheduleQueryVo;
 import org.springframework.data.domain.Page;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,4 +17,6 @@ public interface ScheduleService {
     Map<String, Object> getRuleSchedule(Integer page, Integer limit, String hoscode, String depcode);
 
     List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate);
+
+    Map<String, Object> getBookingSchedule(Integer page, Integer limit, String hoscode, String depcode);
 }

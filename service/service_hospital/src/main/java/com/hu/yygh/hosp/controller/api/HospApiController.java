@@ -3,7 +3,9 @@ package com.hu.yygh.hosp.controller.api;
 import com.hu.yygh.common.result.Result;
 import com.hu.yygh.hosp.service.DepartmentService;
 import com.hu.yygh.hosp.service.HospitalService;
+import com.hu.yygh.hosp.service.ScheduleService;
 import com.hu.yygh.model.hosp.Hospital;
+import com.hu.yygh.model.hosp.Schedule;
 import com.hu.yygh.vo.hosp.DepartmentVo;
 import com.hu.yygh.vo.hosp.HospitalQueryVo;
 import io.swagger.annotations.Api;
@@ -24,7 +26,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/hosp/hospital")
-@Api(tags = "前端请求接口")
+@Api(tags = "前端用户请求接口")
 public class HospApiController {
     @Autowired
     private HospitalService hospitalService;
@@ -32,11 +34,14 @@ public class HospApiController {
     @Autowired
     private DepartmentService departmentService;
 
+    @Autowired
+    private ScheduleService scheduleService;
+
     @ApiOperation("条件分页获取医院列表")
     @GetMapping("/findHospList/{page}/{limit}")
     public Result<Page<Hospital>> findHospList(@PathVariable Integer page,
-                               @PathVariable Integer limit,
-                               HospitalQueryVo hospitalQueryVo) {
+                                               @PathVariable Integer limit,
+                                               HospitalQueryVo hospitalQueryVo) {
         Page<Hospital> hospitalPage = hospitalService.selectHospPage(page, limit, hospitalQueryVo);
         return Result.ok(hospitalPage);
     }
@@ -61,4 +66,21 @@ public class HospApiController {
         Map<String, Object> map = hospitalService.item(hoscode);
         return Result.ok(map);
     }
+
+    @ApiOperation("获取可预约的排班数据")
+    @GetMapping("/auth/getBookingScheduleRule/{page}/{limit}/{hoscode}/{depcode}")
+    public Result<Map<String, Object>> getBookingSchedule(@PathVariable Integer page, @PathVariable Integer limit,
+                                     @PathVariable String hoscode, @PathVariable String depcode) {
+        Map<String, Object> map = scheduleService.getBookingSchedule(page, limit, hoscode, depcode);
+        return Result.ok(map);
+    }
+
+    @ApiOperation("获取指定日期的排班数据")
+    @GetMapping("/auth/findScheduleList/{hoscode}/{depcode}/{workDate}")
+    public Result<List<Schedule>> findScheduleList(@PathVariable String hoscode, @PathVariable String depcode,
+                                   @PathVariable String workDate) {
+        List<Schedule> detailSchedule = scheduleService.getDetailSchedule(hoscode, depcode, workDate);
+        return Result.ok(detailSchedule);
+    }
+
 }

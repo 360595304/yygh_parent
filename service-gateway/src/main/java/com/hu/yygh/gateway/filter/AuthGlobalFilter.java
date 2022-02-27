@@ -75,10 +75,10 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     private Long getUserId(ServerHttpRequest request) {
         String token = "";
         List<String> tokenList = request.getHeaders().get("token");
-        if(null  != tokenList) {
+        if (null != tokenList) {
             token = tokenList.get(0);
         }
-        if(!StringUtils.isEmpty(token)) {
+        if (!StringUtils.isEmpty(token)) {
             return JwtHelper.getUserId(token);
         }
         return null;

@@ -33,7 +33,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/hosp")
-@Api("医院接口")
+@Api("医院端接口")
 public class ApiController {
 
     // mongoDB
