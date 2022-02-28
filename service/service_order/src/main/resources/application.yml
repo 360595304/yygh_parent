@@ -1,0 +1,32 @@
+server:
+  port: 8206
+
+spring:
+  application:
+    name: service-order
+
+  # 环境
+  profiles:
+    active: dev
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/yygh_hosp?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: su360595304
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  data:
+    mongodb:
+      uri: mongodb://192.168.227.134/yygh_hosp
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  rabbitmq:
+    host: 192.168.227.134
+    port: 5627
+    username: admin
+    password: 123456

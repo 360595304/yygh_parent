@@ -60,4 +60,10 @@ public class PatientApiController {
         patientService.removeById(id);
         return Result.ok();
     }
+
+    @ApiOperation("根据就诊人id获取就诊人信息")
+    @GetMapping("/inner/{id}")
+    public Patient getPatient(@PathVariable Long id) {
+        return patientService.getPatientById(id);
+    }
 }
