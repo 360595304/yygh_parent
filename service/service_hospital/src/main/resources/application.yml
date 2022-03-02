@@ -25,3 +25,11 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+
+  rabbitmq:
+    username: admin
+    password: 123456
+    addresses: 192.168.227.134
+    port: 5672
+  redis:
+    host: 192.168.227.134

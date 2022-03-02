@@ -268,6 +268,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         return schedule;
     }
 
+    //
+    @Override
+    public void update(Schedule schedule) {
+        schedule.setUpdateTime(new Date());
+        scheduleRepository.save(schedule);
+    }
+
     @Override
     public ScheduleOrderVo getScheduleOrderVo(String scheduleId) {
         ScheduleOrderVo scheduleOrderVo = new ScheduleOrderVo();
@@ -335,7 +342,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         IPage<Date> iPage = new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page, 7);
         iPage.setRecords(pageDateList);
         iPage.setTotal(cycle);
-        iPage.setPages(cycle/limit + 1);
+        iPage.setPages(cycle / limit + 1);
         return iPage;
     }
 

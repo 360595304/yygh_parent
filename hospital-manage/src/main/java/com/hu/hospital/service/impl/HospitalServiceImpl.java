@@ -35,7 +35,8 @@ public class HospitalServiceImpl implements HospitalService {
         log.info(JSONObject.toJSONString(paramMap));
         String hoscode = (String)paramMap.get("hoscode");
         String depcode = (String)paramMap.get("depcode");
-        String hosScheduleId = (String)paramMap.get("hosScheduleId");
+//        String hosScheduleId = (String)paramMap.get("hosScheduleId");
+        String hosScheduleId = "1";
         String reserveDate = (String)paramMap.get("reserveDate");
         String reserveTime = (String)paramMap.get("reserveTime");
         String amount = (String)paramMap.get("amount");
