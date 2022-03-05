@@ -15,5 +15,9 @@ public interface OrderService extends IService<OrderInfo> {
 
     OrderInfo getOrder(String orderId);
 
+    OrderInfo getOrderByTradeNo(String tradeNo);
+
     IPage<OrderInfo> selectPage(Page<OrderInfo> pageParam, OrderQueryVo orderQueryVo);
+
+    void setStatus(String tradeNo, int status);
 }

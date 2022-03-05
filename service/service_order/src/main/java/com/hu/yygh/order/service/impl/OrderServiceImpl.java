@@ -107,11 +107,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderInfo> implem
             //预约记录唯一标识（医院预约记录主键）
             String hosRecordId = jsonObject.getString("hosRecordId");
             //预约序号
-            Integer number = jsonObject.getInteger("number");;
+            Integer number = jsonObject.getInteger("number");
             //取号时间
-            String fetchTime = jsonObject.getString("fetchTime");;
+            String fetchTime = jsonObject.getString("fetchTime");
             //取号地址
-            String fetchAddress = jsonObject.getString("fetchAddress");;
+            String fetchAddress = jsonObject.getString("fetchAddress");
             //更新订单
             orderInfo.setHosRecordId(hosRecordId);
             orderInfo.setNumber(number);
@@ -153,7 +153,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderInfo> implem
     @Override
     public OrderInfo getOrder(String orderId) {
         OrderInfo orderInfo = baseMapper.selectById(orderId);
-        this.packOrderInfo(orderInfo);
+        if (orderInfo != null) this.packOrderInfo(orderInfo);
+        return orderInfo;
+    }
+
+    @Override
+    public OrderInfo getOrderByTradeNo(String tradeNo) {
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("out_trade_no", tradeNo);
+        OrderInfo orderInfo = baseMapper.selectOne(queryWrapper);
+        if (orderInfo != null) this.packOrderInfo(orderInfo);
         return orderInfo;
     }
 
@@ -162,7 +171,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderInfo> implem
         Long userId = orderQueryVo.getUserId();
         String keyword = orderQueryVo.getKeyword();
         String orderStatus = orderQueryVo.getOrderStatus();
-        long patientId = orderQueryVo.getPatientId();
+        Long patientId = orderQueryVo.getPatientId();
         String reserveDate = orderQueryVo.getReserveDate();
         String createTimeBegin = orderQueryVo.getCreateTimeBegin();
         String createTimeEnd = orderQueryVo.getCreateTimeEnd();
@@ -196,5 +205,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderInfo> implem
 
     private void packOrderInfo(OrderInfo orderInfo) {
         orderInfo.getParam().put("orderStatusString", OrderStatusEnum.getStatusNameByStatus(orderInfo.getOrderStatus()));
+    }
+
+    @Override
+    public void setStatus(String tradeNo, int status) {
+        OrderInfo orderInfo = this.getOrderByTradeNo(tradeNo);
+        orderInfo.setOrderStatus(status);
+        this.updateById(orderInfo);
     }
 }

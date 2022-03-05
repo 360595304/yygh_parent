@@ -1,3 +1,5 @@
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,5 +22,6 @@ public class MapTest {
         builder.deleteCharAt(builder.length()-1);
         String s = builder.toString();
         System.out.println(s);
+        System.out.println(JSONObject.toJSONString(map));
     }
 }
