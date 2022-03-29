@@ -25,6 +25,6 @@ spring:
 aliyun:
   oss:
     endpoint: oss-cn-shanghai.aliyuncs.com
-    bucket: yygh-project-study
-    accessKeyId: LTAI5tA8gx2BeKLSVA3meBmF
-    secret: B91To0H5O5YvhlMG69lX5huUyykATw
+    bucket: xxxxxxxxxxxxxxxxxx
+    accessKeyId: xxxxxxxxxxxxxxxxxx
+    secret: xxxxxxxxxxxxxxx
